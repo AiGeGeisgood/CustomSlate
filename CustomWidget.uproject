@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{1E0647AA-41D8-5D9B-7900-C4B84B4D5989}",
+	"EngineAssociation": "4.24",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -13,6 +13,13 @@
 				"SlateCore",
 				"UMG"
 			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "RiderSourceCodeAccess",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/35b0d39e4cee4bccb2dabf04a4c911bb"
 		}
 	]
 }
