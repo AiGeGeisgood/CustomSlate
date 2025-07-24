@@ -1,0 +1,160 @@
+#pragma once
+#include "SlotBase.h"
+#include "Layout/Children.h"
+#include "Widgets/DeclarativeSyntaxSupport.h"
+#include "Widgets/SPanel.h"
+#include "Widgets/Layout/Anchors.h"
+
+class CUSTOMWIDGET_API SMySWidget01 : public SPanel
+{
+public:
+
+	public:
+
+	/**
+	 * ConstraintCanvas slots allow child widgets to be positioned and sized
+	 */
+	class FSlot : public TSlotBase<FSlot>
+	{
+	public:		
+		FSlot& Offset( const TAttribute<FMargin>& InOffset )
+		{
+			SetAttribute(OffsetAttr, InOffset, EInvalidateWidgetReason::Layout);
+			return *this;
+		}
+
+		FSlot& Anchors( const TAttribute<FAnchors>& InAnchors )
+		{
+			SetAttribute(AnchorsAttr, InAnchors, EInvalidateWidgetReason::Layout);
+			return *this;
+		}
+
+		FSlot& Alignment(const TAttribute<FVector2D>& InAlignment)
+		{
+			SetAttribute(AlignmentAttr, InAlignment, EInvalidateWidgetReason::Layout);
+			return *this;
+		}
+
+		FSlot& AutoSize(const TAttribute<bool>& InAutoSize)
+		{
+			SetAttribute(AutoSizeAttr, InAutoSize, EInvalidateWidgetReason::Layout);
+			return *this;
+		}
+
+		FSlot& ZOrder(const TAttribute<float>& InZOrder)
+		{
+			// Layout isn't entirely correct here, but Paint wouldn't be either.
+			// We need the parent to redraw the children because the logical order didn't change
+			// but the paint order may have if ZOrder changed, so the painted elements need to
+			// be resorted.
+			SetAttribute(ZOrderAttr, InZOrder, EInvalidateWidgetReason::Layout);
+			return *this;
+		}
+
+		FSlot& Expose( FSlot*& OutVarToInit )
+		{
+			OutVarToInit = this;
+			return *this;
+		}
+
+		/** Offset */
+		TAttribute<FMargin> OffsetAttr;
+
+		/** Anchors */
+		TAttribute<FAnchors> AnchorsAttr;
+
+		/** Size */
+		TAttribute<FVector2D> AlignmentAttr;
+
+		/** Auto-Size */
+		TAttribute<bool> AutoSizeAttr;
+
+		/** Z-Order */
+		TAttribute<float> ZOrderAttr;
+
+		/** Default values for a slot. */
+		FSlot()
+			: TSlotBase<FSlot>()
+			, OffsetAttr( FMargin( 0, 0, 1, 1 ) )
+			, AnchorsAttr( FAnchors( 0.0f, 0.0f ) )
+			, AlignmentAttr( FVector2D( 0.5f, 0.5f ) )
+			, AutoSizeAttr( false )
+			, ZOrderAttr( 0 )
+		{ }
+	};
+
+	SLATE_BEGIN_ARGS( SMySWidget01 )
+		{
+			_Visibility = EVisibility::SelfHitTestInvisible;
+		}
+
+		SLATE_SUPPORTS_SLOT( SMySWidget01::FSlot )
+
+	SLATE_END_ARGS()
+
+	SMySWidget01();
+
+	/**
+	 * Construct this widget
+	 *
+	 * @param	InArgs	The declaration data for this widget
+	 */
+	void Construct( const FArguments& InArgs );
+
+	static FSlot& Slot()
+	{
+		return *(new FSlot());
+	}
+
+	/**
+	 * Adds a content slot.
+	 *
+	 * @return The added slot.
+	 */
+	FSlot& AddSlot()
+	{
+		Invalidate(EInvalidateWidget::Layout);
+
+		SMySWidget01::FSlot& NewSlot = *(new FSlot());
+		this->Children.Add( &NewSlot );
+		return NewSlot;
+	}
+
+	/**
+	 * Removes a particular content slot.
+	 *
+	 * @param SlotWidget The widget in the slot to remove.
+	 */
+	int32 RemoveSlot( const TSharedRef<SWidget>& SlotWidget );
+
+	/**
+	 * Removes all slots from the panel.
+	 */
+	void ClearChildren();
+
+public:
+
+	// Begin SWidget overrides
+	virtual void OnArrangeChildren( const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren ) const override;
+	virtual int32 OnPaint( const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled ) const override;
+	virtual FChildren* GetChildren() override;
+	// End SWidget overrides
+
+protected:
+	// Begin SWidget overrides.
+	virtual FVector2D ComputeDesiredSize(float) const override;
+	// End SWidget overrides.
+
+private:
+
+	/** An array matching the length and order of ArrangedChildren. True means the child must be placed in a layer in front of all previous children. */
+	typedef TArray<bool, TInlineAllocator<16>> FArrangedChildLayers;
+
+	/** Like ArrangeChildren but also generates an array of layering information (see FArrangedChildLayers). */
+	void ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren, FArrangedChildLayers& ArrangedChildLayers) const;
+
+protected:
+
+	/** The ConstraintCanvas widget's children. */
+	TPanelChildren< FSlot > Children;
+};
