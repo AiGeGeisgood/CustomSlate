@@ -1,0 +1,16 @@
+# Ignore all files by default, but scan all directories
+*
+!*/
+
+# C/C++ source files
+!*.c
+!*.cpp
+!*.h
+
+# C# source files
+!*.cs
+
+#杂项
+!.gitignore
+!*.uproject
+Intermediate/

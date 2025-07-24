@@ -1,0 +1,18 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{1E0647AA-41D8-5D9B-7900-C4B84B4D5989}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "CustomWidget",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Slate",
+				"SlateCore",
+				"UMG"
+			]
+		}
+	]
+}
