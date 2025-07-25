@@ -5,8 +5,7 @@
 #include "Widgets/SPanel.h"
 #include "Widgets/Layout/Anchors.h"
 
-class CUSTOMWIDGET_API SMySWidget03
-	: public SPanel
+class CUSTOMWIDGET_API SMySWidget03 : public SPanel
 {
 public:
 };
