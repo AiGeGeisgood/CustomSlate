@@ -10,7 +10,6 @@
 # C# source files
 !*.cs
 *.Target.cs
-*.uproject
 
 #杂项
 !.gitignore
