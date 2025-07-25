@@ -9,6 +9,7 @@
 
 # C# source files
 !*.cs
+*.Target.cs
 
 #杂项
 !.gitignore
