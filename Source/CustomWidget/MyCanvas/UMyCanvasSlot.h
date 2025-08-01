@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MySWidget01.h"
+#include "SMyCanvas.h"
 #include "Components/PanelSlot.h"
 #include "Layout/Geometry.h"
 #include "Layout/Margin.h"
 #include "Widgets/Layout/Anchors.h"
-#include "MyUSlot01.generated.h"
+#include "UMyCanvasSlot.generated.h"
 
 
 USTRUCT(BlueprintType)
@@ -65,7 +65,7 @@ public:
  * 
  */
 UCLASS()
-class CUSTOMWIDGET_API UMyUSlot01 : public UPanelSlot
+class CUSTOMWIDGET_API UMyCanvasSlot : public UPanelSlot
 {
 	GENERATED_UCLASS_BODY()
 
@@ -166,7 +166,7 @@ public:
 
 public:
 
-	void BuildSlot(TSharedRef<SMySWidget01> Canvas);
+	void BuildSlot(TSharedRef<SMyCanvas> Canvas);
 
 	// UPanelSlot interface
 	virtual void SynchronizeProperties() override;
@@ -191,7 +191,7 @@ public:
 #endif
 
 private:
-	SMySWidget01::FSlot* Slot;
+	SMyCanvas::FSlot* Slot;
 
 #if WITH_EDITORONLY_DATA
 	FGeometry PreEditGeometry;

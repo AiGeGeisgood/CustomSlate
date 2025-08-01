@@ -3,31 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyUSlot01.h"
+#include "UMyCanvasSlot.h"
 #include "Components/PanelWidget.h"
-#include "MyUWidget01.generated.h"
+#include "UMyCanvas.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CUSTOMWIDGET_API UMyUWidget01 : public UPanelWidget
+class CUSTOMWIDGET_API UMyCanvas : public UPanelWidget
 {
 	GENERATED_UCLASS_BODY()
 public:
 
 	/**  */
 	UFUNCTION(BlueprintCallable, Category="Canvas Panel")
-	UMyUSlot01* AddChildToCanvas(UWidget* Content);
+	UMyCanvasSlot* AddChildToCanvas(UWidget* Content);
 
 	/** Gets the underlying native canvas widget if it has been constructed */
-	TSharedPtr<class SMySWidget01> GetCanvasWidget() const;
+	TSharedPtr<class SMyCanvas> GetCanvasWidget() const;
 
 	/** Computes the geometry for a particular slot based on the current geometry of the canvas. */
 	bool GetGeometryForSlot(int32 SlotIndex, FGeometry& ArrangedGeometry) const;
 
 	/** Computes the geometry for a particular slot based on the current geometry of the canvas. */
-	bool GetGeometryForSlot(UMyUSlot01* Slot, FGeometry& ArrangedGeometry) const;
+	bool GetGeometryForSlot(UMyCanvasSlot* Slot, FGeometry& ArrangedGeometry) const;
 
 	void ReleaseSlateResources(bool bReleaseChildren) override;
 
@@ -54,7 +54,7 @@ protected:
 
 protected:
 
-	TSharedPtr<class SMySWidget01> MyCanvas;
+	TSharedPtr<class SMyCanvas> MyCanvas;
 
 protected:
 	// UWidget interface

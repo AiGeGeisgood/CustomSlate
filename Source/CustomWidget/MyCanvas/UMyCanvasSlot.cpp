@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyUSlot01.h"
+#include "UMyCanvasSlot.h"
 
-#include "MyUWidget01.h"
+#include "UMyCanvas.h"
 #include "Components/Widget.h"
 
 
-UMyUSlot01::UMyUSlot01(const FObjectInitializer& ObjectInitializer)
+UMyCanvasSlot::UMyCanvasSlot(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 	, Slot(nullptr)
 {
@@ -18,14 +18,14 @@ UMyUSlot01::UMyUSlot01(const FObjectInitializer& ObjectInitializer)
 	ZOrder = 0;
 }
 
-void UMyUSlot01::ReleaseSlateResources(bool bReleaseChildren)
+void UMyCanvasSlot::ReleaseSlateResources(bool bReleaseChildren)
 {
 	Super::ReleaseSlateResources(bReleaseChildren);
 
 	Slot = nullptr;
 }
 
-void UMyUSlot01::BuildSlot(TSharedRef<SMySWidget01> Canvas)
+void UMyCanvasSlot::BuildSlot(TSharedRef<SMyCanvas> Canvas)
 {
 	Slot = &Canvas->AddSlot()
 		[
@@ -37,7 +37,7 @@ void UMyUSlot01::BuildSlot(TSharedRef<SMySWidget01> Canvas)
 
 #if WITH_EDITOR
 
-bool UMyUSlot01::NudgeByDesigner(const FVector2D& NudgeDirection, const TOptional<int32>& GridSnapSize)
+bool UMyCanvasSlot::NudgeByDesigner(const FVector2D& NudgeDirection, const TOptional<int32>& GridSnapSize)
 {
 	const FVector2D OldPosition = GetPosition();
 	FVector2D NewPosition = OldPosition + NudgeDirection;
@@ -81,7 +81,7 @@ bool UMyUSlot01::NudgeByDesigner(const FVector2D& NudgeDirection, const TOptiona
 	return true;
 }
 
-bool UMyUSlot01::DragDropPreviewByDesigner(const FVector2D& LocalCursorPosition, const TOptional<int32>& XGridSnapSize, const TOptional<int32>& YGridSnapSize)
+bool UMyCanvasSlot::DragDropPreviewByDesigner(const FVector2D& LocalCursorPosition, const TOptional<int32>& XGridSnapSize, const TOptional<int32>& YGridSnapSize)
 {
 	// If the widget is not constructed yet, we need to call ReleaseSlateResources
 	bool bReleaseSlateResources = !Content->IsConstructed();
@@ -125,7 +125,7 @@ bool UMyUSlot01::DragDropPreviewByDesigner(const FVector2D& LocalCursorPosition,
 	return LayoutChanged;
 }
 
-void UMyUSlot01::SynchronizeFromTemplate(const UPanelSlot* const TemplateSlot)
+void UMyCanvasSlot::SynchronizeFromTemplate(const UPanelSlot* const TemplateSlot)
 {
 	const ThisClass* const TemplateCanvasPanelSlot = CastChecked<ThisClass>(TemplateSlot);
 	SetPosition(TemplateCanvasPanelSlot->GetPosition());
@@ -134,7 +134,7 @@ void UMyUSlot01::SynchronizeFromTemplate(const UPanelSlot* const TemplateSlot)
 
 #endif //WITH_EDITOR
 
-void UMyUSlot01::SetLayout(const FMyAnchorData& InLayoutData)
+void UMyCanvasSlot::SetLayout(const FMyAnchorData& InLayoutData)
 {
 	LayoutData = InLayoutData;
 
@@ -146,12 +146,12 @@ void UMyUSlot01::SetLayout(const FMyAnchorData& InLayoutData)
 	}
 }
 
-FMyAnchorData UMyUSlot01::GetLayout() const
+FMyAnchorData UMyCanvasSlot::GetLayout() const
 {
 	return LayoutData;
 }
 
-void UMyUSlot01::SetPosition(FVector2D InPosition)
+void UMyCanvasSlot::SetPosition(FVector2D InPosition)
 {
 	LayoutData.Offsets.Left = InPosition.X;
 	LayoutData.Offsets.Top = InPosition.Y;
@@ -162,7 +162,7 @@ void UMyUSlot01::SetPosition(FVector2D InPosition)
 	}
 }
 
-FVector2D UMyUSlot01::GetPosition() const
+FVector2D UMyCanvasSlot::GetPosition() const
 {
 	if ( Slot )
 	{
@@ -173,7 +173,7 @@ FVector2D UMyUSlot01::GetPosition() const
 	return FVector2D(LayoutData.Offsets.Left, LayoutData.Offsets.Top);
 }
 
-void UMyUSlot01::SetSize(FVector2D InSize)
+void UMyCanvasSlot::SetSize(FVector2D InSize)
 {
 	LayoutData.Offsets.Right = InSize.X;
 	LayoutData.Offsets.Bottom = InSize.Y;
@@ -184,7 +184,7 @@ void UMyUSlot01::SetSize(FVector2D InSize)
 	}
 }
 
-FVector2D UMyUSlot01::GetSize() const
+FVector2D UMyCanvasSlot::GetSize() const
 {
 	if ( Slot )
 	{
@@ -195,7 +195,7 @@ FVector2D UMyUSlot01::GetSize() const
 	return FVector2D(LayoutData.Offsets.Right, LayoutData.Offsets.Bottom);
 }
 
-void UMyUSlot01::SetOffsets(FMargin InOffset)
+void UMyCanvasSlot::SetOffsets(FMargin InOffset)
 {
 	LayoutData.Offsets = InOffset;
 	if ( Slot )
@@ -204,7 +204,7 @@ void UMyUSlot01::SetOffsets(FMargin InOffset)
 	}
 }
 
-FMargin UMyUSlot01::GetOffsets() const
+FMargin UMyCanvasSlot::GetOffsets() const
 {
 	if ( Slot )
 	{
@@ -214,7 +214,7 @@ FMargin UMyUSlot01::GetOffsets() const
 	return LayoutData.Offsets;
 }
 
-void UMyUSlot01::SetAnchors(FAnchors InAnchors)
+void UMyCanvasSlot::SetAnchors(FAnchors InAnchors)
 {
 	LayoutData.Anchors = InAnchors;
 	if ( Slot )
@@ -223,7 +223,7 @@ void UMyUSlot01::SetAnchors(FAnchors InAnchors)
 	}
 }
 
-FAnchors UMyUSlot01::GetAnchors() const
+FAnchors UMyCanvasSlot::GetAnchors() const
 {
 	if ( Slot )
 	{
@@ -233,7 +233,7 @@ FAnchors UMyUSlot01::GetAnchors() const
 	return LayoutData.Anchors;
 }
 
-void UMyUSlot01::SetAlignment(FVector2D InAlignment)
+void UMyCanvasSlot::SetAlignment(FVector2D InAlignment)
 {
 	LayoutData.Alignment = InAlignment;
 	if ( Slot )
@@ -242,7 +242,7 @@ void UMyUSlot01::SetAlignment(FVector2D InAlignment)
 	}
 }
 
-FVector2D UMyUSlot01::GetAlignment() const
+FVector2D UMyCanvasSlot::GetAlignment() const
 {
 	if ( Slot )
 	{
@@ -252,7 +252,7 @@ FVector2D UMyUSlot01::GetAlignment() const
 	return LayoutData.Alignment;
 }
 
-void UMyUSlot01::SetAutoSize(bool InbAutoSize)
+void UMyCanvasSlot::SetAutoSize(bool InbAutoSize)
 {
 	bAutoSize = InbAutoSize;
 	if ( Slot )
@@ -261,7 +261,7 @@ void UMyUSlot01::SetAutoSize(bool InbAutoSize)
 	}
 }
 
-bool UMyUSlot01::GetAutoSize() const
+bool UMyCanvasSlot::GetAutoSize() const
 {
 	if ( Slot )
 	{
@@ -271,7 +271,7 @@ bool UMyUSlot01::GetAutoSize() const
 	return bAutoSize;
 }
 
-void UMyUSlot01::SetZOrder(int32 InZOrder)
+void UMyCanvasSlot::SetZOrder(int32 InZOrder)
 {
 	ZOrder = InZOrder;
 	if ( Slot )
@@ -280,7 +280,7 @@ void UMyUSlot01::SetZOrder(int32 InZOrder)
 	}
 }
 
-int32 UMyUSlot01::GetZOrder() const
+int32 UMyCanvasSlot::GetZOrder() const
 {
 	if ( Slot )
 	{
@@ -290,7 +290,7 @@ int32 UMyUSlot01::GetZOrder() const
 	return ZOrder;
 }
 
-void UMyUSlot01::SetMinimum(FVector2D InMinimumAnchors)
+void UMyCanvasSlot::SetMinimum(FVector2D InMinimumAnchors)
 {
 	LayoutData.Anchors.Minimum = InMinimumAnchors;
 	if ( Slot )
@@ -299,7 +299,7 @@ void UMyUSlot01::SetMinimum(FVector2D InMinimumAnchors)
 	}
 }
 
-void UMyUSlot01::SetMaximum(FVector2D InMaximumAnchors)
+void UMyCanvasSlot::SetMaximum(FVector2D InMaximumAnchors)
 {
 	LayoutData.Anchors.Maximum = InMaximumAnchors;
 	if ( Slot )
@@ -308,7 +308,7 @@ void UMyUSlot01::SetMaximum(FVector2D InMaximumAnchors)
 	}
 }
 
-void UMyUSlot01::SynchronizeProperties()
+void UMyCanvasSlot::SynchronizeProperties()
 {
 	SetOffsets(LayoutData.Offsets);
 	SetAnchors(LayoutData.Anchors);
@@ -319,14 +319,14 @@ void UMyUSlot01::SynchronizeProperties()
 
 #if WITH_EDITOR
 
-void UMyUSlot01::PreEditChange(UProperty* PropertyThatWillChange)
+void UMyCanvasSlot::PreEditChange(UProperty* PropertyThatWillChange)
 {
 	Super::PreEditChange(PropertyThatWillChange);
 
 	SaveBaseLayout();
 }
 
-void UMyUSlot01::PostEditChangeChainProperty(struct FPropertyChangedChainEvent& PropertyChangedEvent)
+void UMyCanvasSlot::PostEditChangeChainProperty(struct FPropertyChangedChainEvent& PropertyChangedEvent)
 {
 	SynchronizeProperties();
 
@@ -347,10 +347,10 @@ void UMyUSlot01::PostEditChangeChainProperty(struct FPropertyChangedChainEvent& 
 	Super::PostEditChangeChainProperty(PropertyChangedEvent);
 }
 
-void UMyUSlot01::SaveBaseLayout()
+void UMyCanvasSlot::SaveBaseLayout()
 {
 	// Get the current location
-	if ( UMyUWidget01* Canvas = Cast<UMyUWidget01>(Parent) )
+	if ( UMyCanvas* Canvas = Cast<UMyCanvas>(Parent) )
 	{
 		FGeometry Geometry;
 		if ( Canvas->GetGeometryForSlot(this, Geometry) )
@@ -361,15 +361,15 @@ void UMyUSlot01::SaveBaseLayout()
 	}
 }
 
-void UMyUSlot01::SetDesiredPosition(FVector2D InPosition)
+void UMyCanvasSlot::SetDesiredPosition(FVector2D InPosition)
 {
 	DesiredPosition = InPosition;
 }
 
-void UMyUSlot01::RebaseLayout(bool PreserveSize)
+void UMyCanvasSlot::RebaseLayout(bool PreserveSize)
 {
 	// Ensure we have a parent canvas
-	if ( UMyUWidget01* Canvas = Cast<UMyUWidget01>(Parent) )
+	if ( UMyCanvas* Canvas = Cast<UMyCanvas>(Parent) )
 	{
 		FGeometry Geometry;
 		if ( Canvas->GetGeometryForSlot(this, Geometry) )

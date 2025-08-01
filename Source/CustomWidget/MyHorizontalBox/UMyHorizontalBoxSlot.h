@@ -3,20 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MySWidget02.h"
+#include "SMyHorizontalBox.h"
 #include "Components/PanelSlot.h"
 #include "Components/SlateWrapperTypes.h"
 #include "Layout/Margin.h"
-#include "MyUSlot02.generated.h"
+#include "UMyHorizontalBoxSlot.generated.h"
 
 
 UCLASS()
-class CUSTOMWIDGET_API UMyUSlot02 : public UPanelSlot
+class CUSTOMWIDGET_API UMyHorizontalBoxSlot : public UPanelSlot
 {
 	GENERATED_UCLASS_BODY()
 
 private:
-	SMySWidget02::FSlot* Slot;
+	SMyHorizontalBox::FSlot* Slot;
 
 public:
 	
@@ -46,7 +46,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Layout|Horizontal Box Slot")
 	void SetVerticalAlignment(EVerticalAlignment InVerticalAlignment);
 
-	void BuildSlot(TSharedRef<SMySWidget02> MySWidget02);
+	void BuildSlot(TSharedRef<SMyHorizontalBox> MyHorizontalBox);
 
 	// UPanelSlot interface
 	virtual void SynchronizeProperties() override;

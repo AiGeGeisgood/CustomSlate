@@ -1,30 +1,33 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MyUSlot02.h"
+/////////////////////////////////////////////////////
+// UMyUSlot03
+
+#include "UMyVerticalBoxSlot.h"
 #include "Components/Widget.h"
 
-UMyUSlot02::UMyUSlot02(const FObjectInitializer& ObjectInitializer)
+UMyVerticalBoxSlot::UMyVerticalBoxSlot(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
+	, Slot(NULL)
 {
 	HorizontalAlignment = HAlign_Fill;
 	VerticalAlignment = VAlign_Fill;
-	Slot = NULL;
 	Size = FSlateChildSize(ESlateSizeRule::Automatic);
 }
 
-void UMyUSlot02::ReleaseSlateResources(bool bReleaseChildren)
+void UMyVerticalBoxSlot::ReleaseSlateResources(bool bReleaseChildren)
 {
 	Super::ReleaseSlateResources(bReleaseChildren);
 
 	Slot = NULL;
 }
 
-void UMyUSlot02::BuildSlot(TSharedRef<SMySWidget02> MySWidget02)
+void UMyVerticalBoxSlot::BuildSlot(TSharedRef<SMyVerticalBox> MyVerticalBox)
 {
-	Slot = &MySWidget02->AddSlot()
+	Slot = &MyVerticalBox->AddSlot()
+		.Padding(Padding)
 		.HAlign(HorizontalAlignment)
 		.VAlign(VerticalAlignment)
-		.Padding(Padding)
 		[
 			Content == NULL ? SNullWidget::NullWidget : Content->TakeWidget()
 		];
@@ -32,7 +35,7 @@ void UMyUSlot02::BuildSlot(TSharedRef<SMySWidget02> MySWidget02)
 	Slot->SizeParam = UWidget::ConvertSerializedSizeParamToRuntime(Size);
 }
 
-void UMyUSlot02::SetPadding(FMargin InPadding)
+void UMyVerticalBoxSlot::SetPadding(FMargin InPadding)
 {
 	Padding = InPadding;
 	if ( Slot )
@@ -41,7 +44,7 @@ void UMyUSlot02::SetPadding(FMargin InPadding)
 	}
 }
 
-void UMyUSlot02::SetSize(FSlateChildSize InSize)
+void UMyVerticalBoxSlot::SetSize(FSlateChildSize InSize)
 {
 	Size = InSize;
 	if ( Slot )
@@ -50,7 +53,7 @@ void UMyUSlot02::SetSize(FSlateChildSize InSize)
 	}
 }
 
-void UMyUSlot02::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignment)
+void UMyVerticalBoxSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignment)
 {
 	HorizontalAlignment = InHorizontalAlignment;
 	if ( Slot )
@@ -59,7 +62,7 @@ void UMyUSlot02::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignme
 	}
 }
 
-void UMyUSlot02::SetVerticalAlignment(EVerticalAlignment InVerticalAlignment)
+void UMyVerticalBoxSlot::SetVerticalAlignment(EVerticalAlignment InVerticalAlignment)
 {
 	VerticalAlignment = InVerticalAlignment;
 	if ( Slot )
@@ -68,7 +71,7 @@ void UMyUSlot02::SetVerticalAlignment(EVerticalAlignment InVerticalAlignment)
 	}
 }
 
-void UMyUSlot02::SynchronizeProperties()
+void UMyVerticalBoxSlot::SynchronizeProperties()
 {
 	SetPadding(Padding);
 	SetSize(Size);

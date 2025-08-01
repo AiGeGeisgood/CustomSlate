@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyUWidget01.h"
+#include "UMyCanvas.h"
 
-#include "MyUSlot01.h"
+#include "UMyCanvasSlot.h"
 #include "Layout/ArrangedChildren.h"
 #include "Components/CanvasPanelSlot.h"
 
@@ -12,35 +12,35 @@
 /////////////////////////////////////////////////////
 // UCanvasPanel
 
-UMyUWidget01::UMyUWidget01(const FObjectInitializer& ObjectInitializer)
+UMyCanvas::UMyCanvas(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	bIsVariable = false;
 	Visibility = ESlateVisibility::SelfHitTestInvisible;
 }
 
-void UMyUWidget01::ReleaseSlateResources(bool bReleaseChildren)
+void UMyCanvas::ReleaseSlateResources(bool bReleaseChildren)
 {
 	Super::ReleaseSlateResources(bReleaseChildren);
 
 	MyCanvas.Reset();
 }
 
-UClass* UMyUWidget01::GetSlotClass() const
+UClass* UMyCanvas::GetSlotClass() const
 {
-	return UMyUSlot01::StaticClass();
+	return UMyCanvasSlot::StaticClass();
 }
 
-void UMyUWidget01::OnSlotAdded(UPanelSlot* InSlot)
+void UMyCanvas::OnSlotAdded(UPanelSlot* InSlot)
 {
 	// Add the child to the live canvas if it already exists
 	if ( MyCanvas.IsValid() )
 	{
-		CastChecked<UMyUSlot01>(InSlot)->BuildSlot(MyCanvas.ToSharedRef());
+		CastChecked<UMyCanvasSlot>(InSlot)->BuildSlot(MyCanvas.ToSharedRef());
 	}
 }
 
-void UMyUWidget01::OnSlotRemoved(UPanelSlot* InSlot)
+void UMyCanvas::OnSlotRemoved(UPanelSlot* InSlot)
 {
 	// Remove the widget from the live slot if it exists.
 	if ( MyCanvas.IsValid() )
@@ -53,13 +53,13 @@ void UMyUWidget01::OnSlotRemoved(UPanelSlot* InSlot)
 	}
 }
 
-TSharedRef<SWidget> UMyUWidget01::RebuildWidget()
+TSharedRef<SWidget> UMyCanvas::RebuildWidget()
 {
-	MyCanvas = SNew(SMySWidget01);
+	MyCanvas = SNew(SMyCanvas);
 
 	for ( UPanelSlot* PanelSlot : Slots )
 	{
-		if ( UMyUSlot01* TypedSlot = Cast<UMyUSlot01>(PanelSlot) )
+		if ( UMyCanvasSlot* TypedSlot = Cast<UMyCanvasSlot>(PanelSlot) )
 		{
 			TypedSlot->Parent = this;
 			TypedSlot->BuildSlot(MyCanvas.ToSharedRef());
@@ -69,30 +69,30 @@ TSharedRef<SWidget> UMyUWidget01::RebuildWidget()
 	return MyCanvas.ToSharedRef();
 }
 
-UMyUSlot01* UMyUWidget01::AddChildToCanvas(UWidget* Content)
+UMyCanvasSlot* UMyCanvas::AddChildToCanvas(UWidget* Content)
 {
-	return Cast<UMyUSlot01>( Super::AddChild(Content) );
+	return Cast<UMyCanvasSlot>( Super::AddChild(Content) );
 }
 
-TSharedPtr<SMySWidget01> UMyUWidget01::GetCanvasWidget() const
+TSharedPtr<SMyCanvas> UMyCanvas::GetCanvasWidget() const
 {
 	return MyCanvas;
 }
 
-bool UMyUWidget01::GetGeometryForSlot(int32 SlotIndex, FGeometry& ArrangedGeometry) const
+bool UMyCanvas::GetGeometryForSlot(int32 SlotIndex, FGeometry& ArrangedGeometry) const
 {
-	UMyUSlot01* PanelSlot = CastChecked<UMyUSlot01>(Slots[SlotIndex]);
+	UMyCanvasSlot* PanelSlot = CastChecked<UMyCanvasSlot>(Slots[SlotIndex]);
 	return GetGeometryForSlot(PanelSlot, ArrangedGeometry);
 }
 
-bool UMyUWidget01::GetGeometryForSlot(UMyUSlot01* InSlot, FGeometry& ArrangedGeometry) const
+bool UMyCanvas::GetGeometryForSlot(UMyCanvasSlot* InSlot, FGeometry& ArrangedGeometry) const
 {
 	if ( InSlot->Content == nullptr )
 	{
 		return false;
 	}
 
-	TSharedPtr<SMySWidget01> Canvas = GetCanvasWidget();
+	TSharedPtr<SMyCanvas> Canvas = GetCanvasWidget();
 	if ( Canvas.IsValid() )
 	{
 		FArrangedChildren ArrangedChildren(EVisibility::All);
@@ -113,9 +113,9 @@ bool UMyUWidget01::GetGeometryForSlot(UMyUSlot01* InSlot, FGeometry& ArrangedGeo
 
 #if WITH_EDITOR
 
-const FText UMyUWidget01::GetPaletteCategory()
+const FText UMyCanvas::GetPaletteCategory()
 {
-	return LOCTEXT("AMyWidget", "AMyWidget");
+	return LOCTEXT("AggWidget", "AggWidget");
 }
 
 #endif

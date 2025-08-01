@@ -5,7 +5,7 @@
 #include "Widgets/SPanel.h"
 #include "Widgets/Layout/Anchors.h"
 
-class CUSTOMWIDGET_API SMySWidget01 : public SPanel
+class CUSTOMWIDGET_API SMyCanvas : public SPanel
 {
 public:
 
@@ -83,16 +83,16 @@ public:
 		{ }
 	};
 
-	SLATE_BEGIN_ARGS( SMySWidget01 )
+	SLATE_BEGIN_ARGS( SMyCanvas )
 		{
 			_Visibility = EVisibility::SelfHitTestInvisible;
 		}
 
-		SLATE_SUPPORTS_SLOT( SMySWidget01::FSlot )
+		SLATE_SUPPORTS_SLOT( SMyCanvas::FSlot )
 
 	SLATE_END_ARGS()
 
-	SMySWidget01();
+	SMyCanvas();
 
 	/**
 	 * Construct this widget
@@ -115,7 +115,7 @@ public:
 	{
 		Invalidate(EInvalidateWidget::Layout);
 
-		SMySWidget01::FSlot& NewSlot = *(new FSlot());
+		SMyCanvas::FSlot& NewSlot = *(new FSlot());
 		this->Children.Add( &NewSlot );
 		return NewSlot;
 	}

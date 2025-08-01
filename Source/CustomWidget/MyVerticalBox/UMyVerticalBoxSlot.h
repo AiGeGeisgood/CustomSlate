@@ -3,15 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MySWidget03.h"
+#include "SMyVerticalBox.h"
 #include "Components/PanelSlot.h"
 #include "Components/SlateWrapperTypes.h"
 #include "Layout/Margin.h"
-#include "MyUSlot03.generated.h"
+#include "UMyVerticalBoxSlot.generated.h"
 
 
 UCLASS()
-class CUSTOMWIDGET_API UMyUSlot03 : public UPanelSlot
+class CUSTOMWIDGET_API UMyVerticalBoxSlot : public UPanelSlot
 {
 	GENERATED_UCLASS_BODY()
 
@@ -29,7 +29,7 @@ private:
 	//TODO UMG Slots should hold weak or shared refs to slots.
 
 	/** A raw pointer to the slot to allow us to adjust the size, padding...etc at runtime. */
-	SMySWidget03::FSlot* Slot;
+	SMyVerticalBox::FSlot* Slot;
 
 public:
 
@@ -64,5 +64,5 @@ public:
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
 	/** Builds the underlying FSlot for the Slate layout panel. */
-	void BuildSlot(TSharedRef<SMySWidget03> MySWidget03);
+	void BuildSlot(TSharedRef<SMyVerticalBox> MyVerticalBox);
 };

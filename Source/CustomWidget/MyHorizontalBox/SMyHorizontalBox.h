@@ -3,39 +3,36 @@
 #include "Layout/Children.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SBoxPanel.h"
-#include "Widgets/SPanel.h"
 #include "Widgets/Layout/Anchors.h"
 
-class CUSTOMWIDGET_API SMySWidget03 : public SBoxPanel
+class CUSTOMWIDGET_API SMyHorizontalBox : public SBoxPanel
 {
 public:
 	class FSlot : public SBoxPanel::FSlot
 	{
 		public:
-
 		FSlot()
 		: SBoxPanel::FSlot()
 		{
 		}
 
-		FSlot& AutoHeight()
+		FSlot& AutoWidth()
 		{
 			SizeParam = FAuto();
 			return *this;
 		}
 
-		FSlot& MaxHeight( const TAttribute< float >& InMaxHeight )
+		FSlot& MaxWidth( const TAttribute< float >& InMaxWidth )
 		{
-			MaxSize = InMaxHeight;
+			MaxSize = InMaxWidth;
 			return *this;
 		}
 
-		FSlot& FillHeight( const TAttribute< float >& StretchCoefficient )
+		FSlot& FillWidth( const TAttribute< float >& StretchCoefficient )
 		{
 			SizeParam = FStretch( StretchCoefficient );
 			return *this;
 		}
-
 		FSlot& Padding( float Uniform )
 		{
 			SlotPadding = FMargin(Uniform);
@@ -53,10 +50,10 @@ public:
 			SlotPadding = FMargin(Left, Top, Right, Bottom);
 			return *this;
 		}
-
-		FSlot& Padding( const TAttribute<FMargin>::FGetter& InDelegate )
+		
+		FSlot& Padding( TAttribute<FMargin> InPadding )
 		{
-			SlotPadding.Bind( InDelegate );
+			SlotPadding = InPadding;
 			return *this;
 		}
 
@@ -69,12 +66,6 @@ public:
 		FSlot& VAlign( EVerticalAlignment InVAlignment )
 		{
 			VAlignment = InVAlignment;
-			return *this;
-		}
-
-		FSlot& Padding( TAttribute<FMargin> InPadding )
-		{
-			SlotPadding = InPadding;
 			return *this;
 		}
 
@@ -96,19 +87,18 @@ public:
 		return *(new FSlot());
 	}
 
-
-	SLATE_BEGIN_ARGS( SMySWidget03 )
+	SLATE_BEGIN_ARGS( SMyHorizontalBox )
 	{
 		_Visibility = EVisibility::SelfHitTestInvisible;
 	}
 
-		SLATE_SUPPORTS_SLOT(SMySWidget03::FSlot)
+		SLATE_SUPPORTS_SLOT(SMyHorizontalBox::FSlot)
 
 	SLATE_END_ARGS()
 
 	FSlot& AddSlot()
 	{
-		SMySWidget03::FSlot& NewSlot = *new SMySWidget03::FSlot();
+		SMyHorizontalBox::FSlot& NewSlot = *new SMyHorizontalBox::FSlot();
 		this->Children.Add( &NewSlot );
 
 		Invalidate(EInvalidateWidget::Layout);
@@ -122,7 +112,7 @@ public:
 		{
 			return AddSlot();
 		}
-		SMySWidget03::FSlot& NewSlot = *new SMySWidget03::FSlot();
+		SMyHorizontalBox::FSlot& NewSlot = *new SMyHorizontalBox::FSlot();
 		this->Children.Insert(&NewSlot, Index);
 
 		Invalidate(EInvalidateWidget::Layout);
@@ -135,8 +125,8 @@ public:
 		return this->Children.Num();
 	}
 
-	FORCENOINLINE SMySWidget03()
-	: SBoxPanel( Orient_Vertical )
+	FORCENOINLINE SMyHorizontalBox()
+	: SBoxPanel( Orient_Horizontal )
 	{
 		SetCanTick(false);
 		bCanSupportFocus = false;

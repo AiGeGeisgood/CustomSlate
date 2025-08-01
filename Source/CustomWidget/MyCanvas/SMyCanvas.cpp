@@ -1,17 +1,17 @@
-#include "MySWidget01.h"
+#include "SMyCanvas.h"
 
 #include "SlateSettings.h"
 #include "Layout/ArrangedChildren.h"
 
 
-SMySWidget01::SMySWidget01()
+SMyCanvas::SMyCanvas()
 	: Children(this)
 {
 	SetCanTick(false);
 	bCanSupportFocus = false;
 }
 
-void SMySWidget01::Construct( const SMySWidget01::FArguments& InArgs )
+void SMyCanvas::Construct( const SMyCanvas::FArguments& InArgs )
 {
 	const int32 NumSlots = InArgs.Slots.Num();
 	for ( int32 SlotIndex = 0; SlotIndex < NumSlots; ++SlotIndex )
@@ -20,7 +20,7 @@ void SMySWidget01::Construct( const SMySWidget01::FArguments& InArgs )
 	}
 }
 
-void SMySWidget01::ClearChildren()
+void SMyCanvas::ClearChildren()
 {
 	if ( Children.Num() )
 	{
@@ -29,7 +29,7 @@ void SMySWidget01::ClearChildren()
 	}
 }
 
-int32 SMySWidget01::RemoveSlot( const TSharedRef<SWidget>& SlotWidget )
+int32 SMyCanvas::RemoveSlot( const TSharedRef<SWidget>& SlotWidget )
 {
 	Invalidate(EInvalidateWidget::Layout);
 
@@ -62,13 +62,13 @@ struct FSortSlotsByZOrder
 /* SWidget overrides
  *****************************************************************************/
 
-void SMySWidget01::OnArrangeChildren( const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren ) const
+void SMyCanvas::OnArrangeChildren( const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren ) const
 {
 	FArrangedChildLayers ChildLayers;
 	ArrangeLayeredChildren(AllottedGeometry, ArrangedChildren, ChildLayers);
 }
 
-void SMySWidget01::ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren, FArrangedChildLayers& ArrangedChildLayers) const
+void SMyCanvas::ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren, FArrangedChildLayers& ArrangedChildLayers) const
 {
 	if (Children.Num() > 0)
 	{
@@ -86,7 +86,7 @@ void SMySWidget01::ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FAr
 
 		for (int32 ChildIndex = 0; ChildIndex < Children.Num(); ++ChildIndex)
 		{
-			const SMySWidget01::FSlot& CurChild = Children[ChildIndex];
+			const SMyCanvas::FSlot& CurChild = Children[ChildIndex];
 
 			FChildZOrder Order;
 			Order.ChildIndex = ChildIndex;
@@ -101,7 +101,7 @@ void SMySWidget01::ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FAr
 		for (int32 ChildIndex = 0; ChildIndex < Children.Num(); ++ChildIndex)
 		{
 			const FChildZOrder& CurSlot = SlotOrder[ChildIndex];
-			const SMySWidget01::FSlot& CurChild = Children[CurSlot.ChildIndex];
+			const SMyCanvas::FSlot& CurChild = Children[CurSlot.ChildIndex];
 			const TSharedRef<SWidget>& CurWidget = CurChild.GetWidget();
 
 			const EVisibility ChildVisibility = CurWidget->GetVisibility();
@@ -187,7 +187,7 @@ void SMySWidget01::ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FAr
 	}
 }
 
-int32 SMySWidget01::OnPaint( const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled ) const
+int32 SMyCanvas::OnPaint( const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled ) const
 {
 	SCOPED_NAMED_EVENT_TEXT("SConstraintCanvas", FColor::Orange);
 
@@ -229,14 +229,14 @@ int32 SMySWidget01::OnPaint( const FPaintArgs& Args, const FGeometry& AllottedGe
 	return MaxLayerId;
 }
 
-FVector2D SMySWidget01::ComputeDesiredSize( float ) const
+FVector2D SMyCanvas::ComputeDesiredSize( float ) const
 {
 	FVector2D FinalDesiredSize(0,0);
 
 	// Arrange the children now in their proper z-order.
 	for ( int32 ChildIndex = 0; ChildIndex < Children.Num(); ++ChildIndex )
 	{
-		const SMySWidget01::FSlot& CurChild = Children[ChildIndex];
+		const SMyCanvas::FSlot& CurChild = Children[ChildIndex];
 		const TSharedRef<SWidget>& Widget = CurChild.GetWidget();
 		const EVisibility ChildVisibilty = Widget->GetVisibility();
 
@@ -264,7 +264,7 @@ FVector2D SMySWidget01::ComputeDesiredSize( float ) const
 	return FinalDesiredSize;
 }
 
-FChildren* SMySWidget01::GetChildren()
+FChildren* SMyCanvas::GetChildren()
 {
 	return &Children;
 }

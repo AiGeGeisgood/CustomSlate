@@ -3,29 +3,30 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyUSlot03.h"
+#include "UMyHorizontalBoxSlot.h"
 #include "Components/PanelWidget.h"
-#include "MyUWidget03.generated.h"
+#include "UMyHorizontalBox.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class CUSTOMWIDGET_API UMyUWidget03 : public UPanelWidget
+UCLASS(meta = (ShortTooltip = "A layout panel for automatically laying child widgets out horizontally"))
+class CUSTOMWIDGET_API UMyHorizontalBox : public UPanelWidget
 {
 	GENERATED_UCLASS_BODY()
-
 public:
 
 	/**  */
-	UFUNCTION(BlueprintCallable, Category="Panel")
-	UMyUSlot03* AddChildToVerticalBox(UWidget* Content);
+	UFUNCTION(BlueprintCallable, Category="Widget")
+	UMyHorizontalBoxSlot* AddChildToHorizontalBox(UWidget* Content);
 
 #if WITH_EDITOR
 	// UWidget interface
 	virtual const FText GetPaletteCategory() override;
 	// End UWidget interface
 #endif
+
+	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
 protected:
 
@@ -35,15 +36,13 @@ protected:
 	virtual void OnSlotRemoved(UPanelSlot* Slot) override;
 	// End UPanelWidget
 
-	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
-
 protected:
 
-	TSharedPtr<class SMySWidget03> MySWidget03;
+	TSharedPtr<class SMyHorizontalBox> MyHorizontalBox;
 
 protected:
 	// UWidget interface
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	// End of UWidget interface
-	
+
 };
