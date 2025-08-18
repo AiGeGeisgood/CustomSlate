@@ -8,22 +8,19 @@
 class CUSTOMWIDGET_API SMyCanvas : public SPanel
 {
 public:
-
-	public:
-
 	/**
 	 * ConstraintCanvas slots allow child widgets to be positioned and sized
 	 */
 	class FSlot : public TSlotBase<FSlot>
 	{
-	public:		
-		FSlot& Offset( const TAttribute<FMargin>& InOffset )
+	public:
+		FSlot& Offset(const TAttribute<FMargin>& InOffset)
 		{
 			SetAttribute(OffsetAttr, InOffset, EInvalidateWidgetReason::Layout);
 			return *this;
 		}
 
-		FSlot& Anchors( const TAttribute<FAnchors>& InAnchors )
+		FSlot& Anchors(const TAttribute<FAnchors>& InAnchors)
 		{
 			SetAttribute(AnchorsAttr, InAnchors, EInvalidateWidgetReason::Layout);
 			return *this;
@@ -51,7 +48,7 @@ public:
 			return *this;
 		}
 
-		FSlot& Expose( FSlot*& OutVarToInit )
+		FSlot& Expose(FSlot*& OutVarToInit)
 		{
 			OutVarToInit = this;
 			return *this;
@@ -75,20 +72,21 @@ public:
 		/** Default values for a slot. */
 		FSlot()
 			: TSlotBase<FSlot>()
-			, OffsetAttr( FMargin( 0, 0, 1, 1 ) )
-			, AnchorsAttr( FAnchors( 0.0f, 0.0f ) )
-			, AlignmentAttr( FVector2D( 0.5f, 0.5f ) )
-			, AutoSizeAttr( false )
-			, ZOrderAttr( 0 )
-		{ }
+			  , OffsetAttr(FMargin(0, 0, 1, 1))
+			  , AnchorsAttr(FAnchors(0.0f, 0.0f))
+			  , AlignmentAttr(FVector2D(0.5f, 0.5f))
+			  , AutoSizeAttr(false)
+			  , ZOrderAttr(0)
+		{
+		}
 	};
 
-	SLATE_BEGIN_ARGS( SMyCanvas )
+	SLATE_BEGIN_ARGS(SMyCanvas)
 		{
 			_Visibility = EVisibility::SelfHitTestInvisible;
 		}
 
-		SLATE_SUPPORTS_SLOT( SMyCanvas::FSlot )
+		SLATE_SUPPORTS_SLOT(SMyCanvas::FSlot)
 
 	SLATE_END_ARGS()
 
@@ -99,7 +97,7 @@ public:
 	 *
 	 * @param	InArgs	The declaration data for this widget
 	 */
-	void Construct( const FArguments& InArgs );
+	void Construct(const FArguments& InArgs);
 
 	static FSlot& Slot()
 	{
@@ -116,7 +114,7 @@ public:
 		Invalidate(EInvalidateWidget::Layout);
 
 		SMyCanvas::FSlot& NewSlot = *(new FSlot());
-		this->Children.Add( &NewSlot );
+		this->Children.Add(&NewSlot);
 		return NewSlot;
 	}
 
@@ -125,7 +123,7 @@ public:
 	 *
 	 * @param SlotWidget The widget in the slot to remove.
 	 */
-	int32 RemoveSlot( const TSharedRef<SWidget>& SlotWidget );
+	int32 RemoveSlot(const TSharedRef<SWidget>& SlotWidget);
 
 	/**
 	 * Removes all slots from the panel.
@@ -133,10 +131,10 @@ public:
 	void ClearChildren();
 
 public:
-
 	// Begin SWidget overrides
-	virtual void OnArrangeChildren( const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren ) const override;
-	virtual int32 OnPaint( const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled ) const override;
+	virtual void OnArrangeChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren) const override;
+	virtual int32 OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId,
+	                      const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const override;
 	virtual FChildren* GetChildren() override;
 	// End SWidget overrides
 
@@ -146,7 +144,6 @@ protected:
 	// End SWidget overrides.
 
 private:
-
 	/** An array matching the length and order of ArrangedChildren. True means the child must be placed in a layer in front of all previous children. */
 	typedef TArray<bool, TInlineAllocator<16>> FArrangedChildLayers;
 
@@ -154,7 +151,6 @@ private:
 	void ArrangeLayeredChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren, FArrangedChildLayers& ArrangedChildLayers) const;
 
 protected:
-
 	/** The ConstraintCanvas widget's children. */
-	TPanelChildren< FSlot > Children;
+	TPanelChildren<FSlot> Children;
 };
