@@ -8,9 +8,10 @@
 
 class SMyTextBlock;
 /**
- * The image widget allows you to display a Slate Brush, or texture or material in the UI.
+ * A simple static text widget.
  *
  * * No Children
+ * * Text
  */
 UCLASS()
 class CUSTOMWIDGET_API UMyTextBlock : public UMyTextLayoutWidget
